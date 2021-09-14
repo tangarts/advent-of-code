@@ -17,10 +17,10 @@ their respective policies.
 How many passwords are valid according to their policies?
 """
 
-#%%
+# %%
 from collections import Counter
 
-#%%
+# %%
 result = 0
 with open("data/input_2.txt") as f:
     for line in f.readlines():
@@ -30,7 +30,7 @@ with open("data/input_2.txt") as f:
         password = Counter(password.strip("\n"))
         if letter in password and lower_bound <= password[letter] <= upper_bound:
             result += 1
-#%%
+# %%
 print(result)
 # %%
 
@@ -53,7 +53,7 @@ How many passwords are valid according to the new interpretation of the policies
 
 """
 
-#%%
+# %%
 result = 0
 with open("data/input_2.txt") as f:
     for line in f.readlines():

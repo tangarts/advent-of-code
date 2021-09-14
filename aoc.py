@@ -18,8 +18,8 @@ Of course, your expense report is much larger. Find the two entries that sum to
  """
 
 # array = [1721, 979, 366, 299, 675, 1456]
-with open('data/input_1.txt') as f:
-   array = [int(s) for s in f.readlines()]
+with open("data/input_1.txt") as f:
+    array = [int(s) for s in f.readlines()]
 
 # for i in range(len(array)):
 #     for j in range(i, len(array)):
@@ -28,12 +28,14 @@ with open('data/input_1.txt') as f:
 
 cache = {}
 
+
 def two_sum(array_1, t=2020):
     for i in range(len(array)):
         if array[i] not in cache:
             cache[t - array[i]] = array[i]
-        else: 
+        else:
             return array[i] * cache[array[i]]
+
 
 # print(two_sum(array))
 

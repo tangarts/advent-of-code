@@ -22,14 +22,14 @@ down 1, how many trees would you encounter?
 """
 
 
-#%%
+# %%
 down = 0
 trees = 0
 right = 0
-with open('data/input_3.txt') as testf:
-    board = [line.strip('\n') for line in testf.readlines()]
+with open("data/input_3.txt") as testf:
+    board = [line.strip("\n") for line in testf.readlines()]
     # for line in testf.readlines():
-    #     line = line.strip('\n')        
+    #     line = line.strip('\n')
     #     if line[right%(len(line))] == "#":
     #         trees += 1
     #     right += 3
@@ -37,11 +37,13 @@ with open('data/input_3.txt') as testf:
 # %%
 def traverse(board, right, down):
     x = trees = 0
-    for row in range(0, len(board), down): 
-        if board[row][x%len(board[0])] == "#":
+    for row in range(0, len(board), down):
+        if board[row][x % len(board[0])] == "#":
             trees += 1
         x += right
     return trees
+
+
 # %%
 total = 1
 for x, y in [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]:
