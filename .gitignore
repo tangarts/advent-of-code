@@ -132,3 +132,4 @@ dmypy.json
 
 .devcontainer/
 .vscode/
+data/test.txt
