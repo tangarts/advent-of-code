@@ -1,10 +1,10 @@
-#%%
+# %%
 with open("data/.txt") as f:
     data = f.read()
-#%%
+# %%
 passport = [line for line in data.split("\n\n")]
 print(passport)
-#%%
+# %%
 
 
 codes = ("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid")  # "cid")
