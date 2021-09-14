@@ -1,18 +1,17 @@
-
 #%%
-with open('data/.txt') as f:
+with open("data/.txt") as f:
     data = f.read()
 #%%
-passport = [line for line in data.split('\n\n')]
+passport = [line for line in data.split("\n\n")]
 print(passport)
 #%%
 
 
-codes = ("byr","iyr","eyr","hgt","hcl","ecl","pid")#"cid")
+codes = ("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid")  # "cid")
 
 # %%
 number_not_valid = 0
-for docs in passport: 
+for docs in passport:
     not_valid = False
     for c in codes:
         if c not in docs:

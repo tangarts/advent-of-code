@@ -22,12 +22,12 @@ from collections import Counter
 
 #%%
 result = 0
-with open('data/input_2.txt') as f:
+with open("data/input_2.txt") as f:
     for line in f.readlines():
-        count, letter, password = line.split(' ')
-        lower_bound, upper_bound = [int(i) for i in count.split('-')]
-        letter = letter.strip(':')
-        password = Counter(password.strip('\n'))
+        count, letter, password = line.split(" ")
+        lower_bound, upper_bound = [int(i) for i in count.split("-")]
+        letter = letter.strip(":")
+        password = Counter(password.strip("\n"))
         if letter in password and lower_bound <= password[letter] <= upper_bound:
             result += 1
 #%%
@@ -55,18 +55,22 @@ How many passwords are valid according to the new interpretation of the policies
 
 #%%
 result = 0
-with open('data/input_2.txt') as f:
+with open("data/input_2.txt") as f:
     for line in f.readlines():
-        count, letter, password = line.split(' ')
-        first_occurence, second_occurence = [int(i)-1 for i in count.split('-')]
-        letter = letter.strip(':')
-        password = password.strip('\n') 
-        if (letter == password[first_occurence] and letter != password[second_occurence]\
-            or  letter == password[second_occurence] and letter != password[first_occurence]):
+        count, letter, password = line.split(" ")
+        first_occurence, second_occurence = [int(i) - 1 for i in count.split("-")]
+        letter = letter.strip(":")
+        password = password.strip("\n")
+        if (
+            letter == password[first_occurence]
+            and letter != password[second_occurence]
+            or letter == password[second_occurence]
+            and letter != password[first_occurence]
+        ):
             result += 1
 
 
 print(result)
 
-        
+
 # %%
