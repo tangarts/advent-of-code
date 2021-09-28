@@ -1,5 +1,7 @@
 # Advent of Code
 
+This repo contains my answers to the 2020 advent of code challenge.
+
 ### Running Test Coverage Report 
 
 ```
