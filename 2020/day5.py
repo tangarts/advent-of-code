@@ -35,7 +35,8 @@ with open('data/input5.txt') as f:
     _input = [l.strip() for l in f.readlines()]
 
 print(max(map(lambda x: seat_id(x), _input)))
+print(min(map(lambda x: seat_id(x), _input)))
 
 
 ### find the first missing seat
-print(max(map(lambda x: seat_id(x), _input)))
+seats = sorted(map(lambda x: seat_id(x), _input))
