@@ -1,6 +1,6 @@
+from collections import Counter
 
-test_input = """
-abc
+test_input = """abc
 
 a
 b
@@ -23,7 +23,9 @@ with open('data/input6.txt') as f:
 
 _input = _input.split('\n\n')
 
-groups = lambda _input: sum(len(set(group)) for group in _input) - len(_input)
+groups = lambda _input: sum(len(Counter(group.replace("\n",""))) for group in _input) 
 
 assert groups(test_input) == 11
+# 7027
+assert groups(_input) == 7027
 
