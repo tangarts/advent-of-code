@@ -41,13 +41,19 @@ def is_winner(board_index: set) -> bool:
 
 def get_winner(boards, numbers):
     number_set = {i : set() for i in range(len(boards))}
+    seen = []
+    winner = []
     for num in numbers:
         for i, board in enumerate(boards):
             if num in board:
                 number_set[i].add(board.index(num))
-            if is_winner(number_set[i]):
-                return board, number_set[i], num
-    return None, set(), -1
+            if is_winner(number_set[i]) and i not in seen:
+                seen.append(i)
+                seen_idx = number_set[i]
+                winner.append((board, seen_idx, num))
+                if len(winner) == len(boards):
+                    return board, seen_idx, num
+    return winner[-1]
 
 boards, numbers = parse_input(test_input)
 board, num_set, last_num = get_winner(boards, numbers)
@@ -60,7 +66,7 @@ def part1(_input):
     board, num_set, last_num = get_winner(boards, numbers)
     return score(board, num_set, last_num)
 
-assert part1(test_input) == 4512
+assert part1(test_input) == 1924#4512
 with open('data/input4.txt') as f:
     data = f.read()
 
