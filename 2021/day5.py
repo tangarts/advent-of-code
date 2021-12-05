@@ -35,6 +35,14 @@ def str_to_tup(string):
 def X(point): return point[0]
 def Y(point): return point[1]
 
+def trace1(f):
+    "Print a trace of the input and output of a function on one line."
+    def traced_f(*args):
+        result = f(*args)
+        print('{}({}) = {}'.format(f.__name__, ', '.join(map(str, args)), result))
+        return result
+    return traced_f
+
 def count_points(p1: tuple, p2: tuple, part1=True):
     min_y, max_y = min(Y(p2), Y(p1)), max(Y(p2), Y(p1))
     min_x, max_x = min(X(p2), X(p1)), max(X(p2), X(p1))
@@ -42,10 +50,10 @@ def count_points(p1: tuple, p2: tuple, part1=True):
         return [(X(p1), y) for y in range(min_y, max_y + 1)]
     elif Y(p1) == Y(p2):
         return [(x, Y(p1)) for x in range(min_x, max_x + 1)]
-    elif not part1:
-        grad = (max_y - min_y) / (max_x - min_x)
-        c = min_y if grad > 0 else max_y
-        return [(x, grad*x + c) for x in range(min_x, max_x + 1)]
+
+    if not part1:
+        grad = (Y(p2) - Y(p1)) / (X(p2) - X(p1))
+        return [(x, grad*(x - min_x) + Y(p1)) for x in range(min_x, max_x + 1)]
     return []
 
 def do(_input, istest, part1):
@@ -56,6 +64,8 @@ def do(_input, istest, part1):
 
     for points in _input:
         p1, p2 = points
+        if X(p1) > X(p2):
+            p1, p2 = p2, p1
         px =count_points(p1, p2, part1)
         for p in px:
             point_map[p] += 1
@@ -63,12 +73,11 @@ def do(_input, istest, part1):
     return count(point_map.values(), lambda c: c > 1)
 
 
-assert do(test_input, True, part1=True) == 5
-assert do('data/input5.txt', False, part1=True) == 6461
+# assert do(test_input, True, part1=True) == 5
+# assert do('data/input5.txt', False, part1=True) == 6461
 
 
 ## part2
 
-print(do(test_input, istest=True, part1=False))
 assert do(test_input, istest=True, part1=False) == 12
-
+assert do('data/input5.txt', istest=False, part1=False) == 18065
