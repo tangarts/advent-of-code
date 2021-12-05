@@ -17,24 +17,19 @@ Of course, your expense report is much larger. Find the two entries that sum to
 2020; what do you get if you multiply them together?
  """
 
-# array = [1721, 979, 366, 299, 675, 1456]
 with open("data/input_1.txt") as f:
     array = [int(s) for s in f.readlines()]
 
-# for i in range(len(array)):
-#     for j in range(i, len(array)):
-#         if array[i] + array[j] == 2020:
-#             print(array[i] * array[j])
-
-cache = {}
 
 
-def two_sum(array_1, t=2020):
+def two_sum(array: list, t:int=2020) -> int:
+    cache = {}
     for i in range(len(array)):
         if array[i] not in cache:
             cache[t - array[i]] = array[i]
         else:
             return array[i] * cache[array[i]]
+    return -1
 
 
 # print(two_sum(array))

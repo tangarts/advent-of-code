@@ -71,6 +71,3 @@ with open("data/input_2.txt") as f:
 
 
 print(result)
-
-
-# %%
