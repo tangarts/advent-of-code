@@ -1,5 +1,7 @@
+#%%
 from advent_of_code.core import *
 from advent_of_code.debug import trace1
+
 
 test_input = """abc
 
@@ -20,23 +22,29 @@ b
 
 test_input = data(test_input, parser=str.splitlines, sep="\n\n")
 
-with open('2020/data/input6.txt') as f:
+with open("data/input6.txt") as f:
     _input = f.read()
 
 _input = data(_input, parser=str.splitlines, sep="\n\n")
 
+
 def part1(groups):
     "count letters that anyone has"
-    return sum(len(set(''.join(group))) for group in groups)
+    return sum(len(set("".join(group))) for group in groups)
+
 
 assert part1(test_input) == 11
 assert part1(_input) == 7027
 
 ### part 2
-@trace1
+
+
 def part2(groups):
     "count letters that are common to everyone"
     return sum(len(set.intersection(*map(set, group))) for group in groups)
 
+
 assert part2(test_input) == 6
 print(part2(_input))
+
+# %%
