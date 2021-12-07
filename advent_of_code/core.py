@@ -92,9 +92,17 @@ def repeatedly(fn, arg, *args, **kwds):
         yield arg
 
 
+def compose():
+    return identity
+
+
+def compose(f):
+    return f
+
+
 def compose(f, g):
     "The function that computes f(g(x))."
-    return lambda x: f(g(x))
+    return lambda *x: f(g(*x))
 
 
 def groupby(iterable, key=identity):
