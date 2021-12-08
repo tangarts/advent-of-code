@@ -38,4 +38,8 @@ def part1(data):
 assert part1(test_input) == 26
 assert part1(_input) == 539
 
+for _, output_value in test_input:
+    segment = output_value.split(" ")
+    quantify(segment, lambda s: len(s) in (2, 3, 4, 7))
+ 
 
