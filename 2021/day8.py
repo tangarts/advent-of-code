@@ -62,7 +62,7 @@ digit_patterns = {}
 for pattern, output_value in test_input1:
     len_output = len_str_dict(pattern)
     # focus on the easy digits
-    digit_patterns[len_output[2]] = "1"
+    digit_patterns[len_output[2][0]] = "1"
     digit_patterns[len_output[3][0]] = "7"
     digit_patterns[len_output[4][0]] = "4"
     digit_patterns[len_output[7][0]] = "8"
