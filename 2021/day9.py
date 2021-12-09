@@ -27,6 +27,7 @@ def count_lows(grid):
                 if 0 <= x < m and 0 <= y < n:
                     is_low = is_low and val < grid[x][y]
             if is_low:
+                lows.append(val)
                 q.append((r, c))
                 basins[(r, c)] = 0
 
@@ -35,17 +36,19 @@ def count_lows(grid):
                     count = 0
                     for x, y in neighbors4(curr):
                         # OOB
-                        if 0 <= x < m and 0 <= y < n and grid[x][y] != 9 and grid[x][y] != -1:
-                            basins[(r,c)] += 1
+                        if (
+                            0 <= x < m
+                            and 0 <= y < n
+                            and grid[x][y] != 9
+                            and grid[x][y] != -1
+                        ):
+                            basins[(r, c)] += 1
                             grid[x][y] = -1
                             q.append((x, y))
-#lows.append(count)
+
     return prod(sorted(basins.values())[-3:])
 
 
 count_lows(_input)
 # print(sum(low + 1 for low in count_lows(test_input)))
 # print(sum(low + 1 for low in count_lows(_input)))
-#
-
-# %%
