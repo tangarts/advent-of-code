@@ -1,6 +1,8 @@
 from advent_of_code.core import *
 
-parser = lambda s: s.replace("\n", " ").split(" ")
+
+def parser(s): return s.replace("\n", " ").split(" ")
+
 
 _test_input = """ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
 byr:1937 iyr:2017 cid:147 hgt:183cm
@@ -22,41 +24,36 @@ codes = {"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"}
 
 # %%
 
-passport = parse_input("2020/data/input_4.txt", sep="\n\n", test=False)
+passports = parse_input("data/input_4.txt", sep="\n\n", test=False)
 assert quantify(test_input, lambda col: all(c in col for c in codes)) == 2
-assert quantify(passport, lambda col: all(c in col for c in codes)) == 260
+assert quantify(passports, lambda col: all(c in col for c in codes)) == 260
+
+# Part 2
 
 
-# * byr (Birth Year) - four digits; at least 1920 and at most 2002.
-# * iyr (Issue Year) - four digits; at least 2010 and at most 2020.
-# * eyr (Expiration Year) - four digits; at least 2020 and at most 2030.
-# * hgt (Height) - a number followed by either cm or in:
-# * If cm, the number must be at least 150 and at most 193.
-# * If in, the number must be at least 59 and at most 76.
-# * hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f.
-# * ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
-# * pid (Passport ID) - a nine-digit number, including leading zeroes.
-# * cid (Country ID) - ignored, missing or not.
+def str_to_dict(col) -> dict: return dict(tuple(s.split(":")) for s in col)
 
-test_input2 = mapt(parser, test_input)
 
-str_to_dict = lambda col: dict([tuple(s.split(":")) for s in col])
-test_input2 = [str_to_dict(passport) for passport in test_input2]
+test_input2 = mapt(lambda s: str_to_dict(parser(s)), test_input)
 
-def isvalid(v) -> dict:
+
+def isvalid() -> dict:
     rules = {
-    'byr' : "1920" <= v <= "2002",
-    'iyr' : "2020" <= v <= "2020",
-    'eyr' : "2020" <= v <= "2030",
-    'hgt' : ((v.endswith('cm') and "150" <= v <= "193") or
-             (v.endswith('in') and "59" <= v <= "76")),
-    'hcl' : first(v) == "#" and 
-            all(cl in "0123456789abcdef" for cl in v[1:]) and 
-            len(v) == 6,
-    'ecl' : v in ('amb', 'blu', 'brn', 'gry', 'hzl', 'oth'),
-    'pid' : len(v) == 9 and set(v) == set(str(x) for x in range(10)),
+        'byr': lambda v: 1920 <= int(v) <= 2002,
+        'iyr': lambda v: 2010 <= int(v) <= 2020,
+        'eyr': lambda v: 2020 <= int(v) <= 2030,
+        'hgt': lambda v: ((v.endswith('cm') and 150 <= int(v[:-2]) <= 193) or
+                          (v.endswith('in') and 59 <= int(v[:-2]) <= 76)),
+        'hcl': lambda v: first(v) == "#" and all(cl in "0123456789abcdef" for cl in v[1:]) and len(v) == 7,
+        'ecl': lambda v: any(v == ecl for ecl in {'amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth'}),
+        'pid': lambda v: len(v) == 9 and set(v) & set(str(x) for x in range(10)),
     }
     return rules
 
-def valid_passport(passport):
-    return (all(c in codes for c in passport))
+
+def valid_passport(passport: dict) -> bool:
+    return (codes.issubset(passport) and all(isvalid()[key](passport[key]) for key in codes))
+
+
+print(quantify(test_input2, valid_passport))
+print(quantify(mapt(lambda s: str_to_dict(parser(s)), passports), valid_passport))
