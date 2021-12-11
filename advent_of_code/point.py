@@ -1,14 +1,14 @@
 ################ 2-D points implemented using (x, y) tuples
-
+from typing import Tuple
 origin = (0, 0)
 HEADINGS = UP, LEFT, DOWN, RIGHT = (0, -1), (-1, 0), (0, 1), (1, 0)
 
 
-def X(point):
+def X(point: Tuple):
     return point[0]
 
 
-def Y(point):
+def Y(point: Tuple):
     return point[1]
 
 
@@ -39,13 +39,13 @@ def king_distance(P, Q=origin):
     return max(abs(p - q) for p, q in zip(P, Q))
 
 
-def neighbors4(point):
+def neighbors4(point: Tuple[int, int]):
     "The four neighbors (without diagonals)."
     x, y = point
     return ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1))
 
 
-def neighbors8(point):
+def neighbors8(point: Tuple[int,int]):
     "The eight neighbors (with diagonals)."
     x, y = point
     return (
