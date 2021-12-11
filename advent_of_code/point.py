@@ -1,14 +1,15 @@
-################ 2-D points implemented using (x, y) tuples
-from typing import Tuple
+# 2-D points implemented using (x, y) tuples
+from typing import Tuple, Union
+
 origin = (0, 0)
 HEADINGS = UP, LEFT, DOWN, RIGHT = (0, -1), (-1, 0), (0, 1), (1, 0)
 
 
-def X(point: Tuple):
+def X(point: Tuple[Union[float, int], Union[float, int]]) -> Union[float, int]:
     return point[0]
 
 
-def Y(point: Tuple):
+def Y(point: Tuple[Union[float, int], Union[float, int]]) -> Union[float, int]:
     return point[1]
 
 
@@ -29,23 +30,23 @@ def turn_left(heading):
 #     return mapt(sum, zip(A, B))
 
 
-def distance(P, Q=origin):
+def distance(P: Tuple[int, int], Q: Tuple[int, int] = origin) -> Union[float, int]:
     "Straight-line (hypotenuse) distance between two points."
     return sum((p - q) ** 2 for p, q in zip(P, Q)) ** 0.5
 
 
-def king_distance(P, Q=origin):
+def king_distance(P: Tuple[int, int], Q: Tuple[int, int] = origin) -> float:
     "Number of chess King moves between two points."
     return max(abs(p - q) for p, q in zip(P, Q))
 
 
-def neighbors4(point: Tuple[int, int]):
+def neighbors4(point: Tuple[int, int]) -> Tuple[Tuple[int, int], ...]:
     "The four neighbors (without diagonals)."
     x, y = point
     return ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1))
 
 
-def neighbors8(point: Tuple[int,int]):
+def neighbors8(point: Tuple[int, int]) -> Tuple[Tuple[int, int], ...]:
     "The eight neighbors (with diagonals)."
     x, y = point
     return (
@@ -60,7 +61,7 @@ def neighbors8(point: Tuple[int,int]):
     )
 
 
-def cityblock_distance(p, q=(0, 0)):
+def cityblock_distance(p: Tuple[float, float], q: Tuple[int, int] = (0, 0)) -> Union[float, int]:
     "City block distance between two points."
     return abs(X(p) - X(q)) + abs(Y(p) - Y(q))
 
