@@ -1,7 +1,7 @@
 #%%
 
 from collections import Counter
-from advent_of_code.core import data, mapt, multimap, quantify
+from advent_of_code.core import parse_input, mapt, multimap, quantify
 
 _test_input1 = "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"
 
@@ -16,9 +16,9 @@ bdfegc cbegaf gecbf dfcage bdacg ed bedf ced adcbefg gebcd | ed bcgafe cdgba cbg
 egadfb cdbfeg cegd fecab cgb gbdefca cg fgcdab egfdb bfceg | gbdfcae bgc cg cgb
 gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce"""
 
-test_input1 = data(_test_input1, "\n", parser=lambda s: s.split(" | "))
-test_input = data(_test_input, "\n", parser=lambda s: s.split(" | "))
-_input = data("data/input8.txt", "\n", parser=lambda s: s.split(" | "), test=False)
+test_input1 = parse_input(_test_input1, "\n", parser=lambda s: s.split(" | "))
+test_input = parse_input(_test_input, "\n", parser=lambda s: s.split(" | "))
+_input = parse_input("data/input8.txt", "\n", parser=lambda s: s.split(" | "), test=False)
 
 # k : v -> segments on : digit
 digits = {2: [1], 5: [2, 3, 5], 4: [4], 3: [7], 6: [0, 6, 9], 7: [8]}

@@ -1,6 +1,6 @@
 #%%
 from typing import Union, List
-from advent_of_code.core import data
+from advent_of_code.core import parse_input
 
 _test_input = """[({(<(())[]>[[{[]{<()<>>
 [(()[<>])]({[<{<<[]>>(
@@ -15,8 +15,8 @@ _test_input = """[({(<(())[]>[[{[]{<()<>>
 
 brackets = {"{": "}", "[": "]", "(": ")", "<": ">"}
 
-test_input = data(_test_input)
-_input = data("data/input10.txt", test=False)
+test_input = parse_input(_test_input)
+_input = parse_input("data/input10.txt", test=False)
 
 
 def balanced_paren(string: str) -> Union[str, List[str]]:

@@ -1,7 +1,7 @@
 #%%
 from math import prod
 from collections import deque
-from advent_of_code.core import data, mapt
+from advent_of_code.core import parse_input, mapt
 from advent_of_code.point import neighbors4
 
 _test_input = """2199943210
@@ -10,8 +10,8 @@ _test_input = """2199943210
 8767896789
 9899965678"""
 
-test_input = data(_test_input, parser=lambda s: list(map(int, s)))
-_input = data("data/input9.txt", parser=lambda s: list(map(int, s)), test=False)
+test_input = parse_input(_test_input, parser=lambda s: list(map(int, s)))
+_input = parse_input("data/input9.txt", parser=lambda s: list(map(int, s)), test=False)
 
 
 def count_lows(grid):

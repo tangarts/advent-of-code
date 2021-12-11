@@ -16,13 +16,13 @@ hgt:179cm
 hcl:#cfa07d eyr:2025 pid:166559648
 iyr:2011 ecl:brn hgt:59in"""
 
-test_input = data(_test_input, sep="\n\n")
+test_input = parse_input(_test_input, sep="\n\n")
 
 codes = {"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"}
 
 # %%
 
-passport = data("2020/data/input_4.txt", sep="\n\n", test=False)
+passport = parse_input("2020/data/input_4.txt", sep="\n\n", test=False)
 assert quantify(test_input, lambda col: all(c in col for c in codes)) == 2
 assert quantify(passport, lambda col: all(c in col for c in codes)) == 260
 

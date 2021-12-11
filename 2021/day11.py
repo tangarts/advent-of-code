@@ -1,6 +1,6 @@
 from collections import deque
 from typing import Tuple, List
-from advent_of_code.core import data, repeat, repeatedly
+from advent_of_code.core import parse_input, repeat, repeatedly
 from advent_of_code.point import neighbors8
 
 
@@ -17,7 +17,7 @@ test11 = """5483143223
 4846848554
 5283751526"""
 
-test_data11 = data(test11, parser=lambda s: list(map(int,s)))
+test_data11 = parse_input(test11, parser=lambda s: list(map(int,s)))
 
 
 def step(stuff) -> Tuple[List[List[int]], int]:
@@ -53,7 +53,7 @@ def step(stuff) -> Tuple[List[List[int]], int]:
 
 # print(repeat(100, step, (test_data11, 0))) # 1656
 
-day11 = data('data/input11.txt', parser=lambda s: list(map(int,s)), test=False)
+day11 = parse_input('data/input11.txt', parser=lambda s: list(map(int,s)), test=False)
 # print(repeat(100, step, (day11, 0))) # 1673
 
 def part2(stuff: Tuple[List[List[int]], int]) -> int:

@@ -20,12 +20,12 @@ a
 b
 """
 
-test_input = data(test_input, parser=str.splitlines, sep="\n\n")
+test_input = parse_input(test_input, parser=str.splitlines, sep="\n\n")
 
 with open("data/input6.txt") as f:
     _input = f.read()
 
-_input = data(_input, parser=str.splitlines, sep="\n\n")
+_input = parse_input(_input, parser=str.splitlines, sep="\n\n")
 
 
 def part1(groups):

@@ -11,7 +11,7 @@ def error(err=RuntimeError, *args) -> RuntimeError:
 # Parsing input
 
 
-def data(_input, sep: str = "\n", parser=str, test: bool = True) -> List[Callable]:
+def parse_input(_input, sep: str = "\n", parser=str, test: bool = True) -> List[Callable]:
     if not test:
         with open(_input) as f:
             _input = f.read()

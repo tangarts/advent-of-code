@@ -3,9 +3,9 @@ from advent_of_code.core import *
 
 _test_input = "16,1,2,0,4,2,7,1,2,14"
 
-test_input = data(_test_input, sep=",", parser=int)
+test_input = parse_input(_test_input, sep=",", parser=int)
 
-_input = data('data/input7.txt', sep=",", parser=int, test=False) # 0 -> 1937
+_input = parse_input('data/input7.txt', sep=",", parser=int, test=False) # 0 -> 1937
 
 
 def get_position(data, distance_fn):
