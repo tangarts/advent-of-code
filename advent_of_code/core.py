@@ -1,6 +1,6 @@
 import re
 from itertools import islice, chain
-from typing import Callable, Dict, Iterable, List, Tuple, Union, Sequence
+from typing import Callable, Dict, Generator, Iterable, List, Tuple, Union, Sequence
 from collections import defaultdict
 
 
@@ -84,7 +84,7 @@ def repeat(n: int, fn: Callable, arg, *args, **kwds):
     return nth(repeatedly(fn, arg, *args, **kwds), n)
 
 
-def repeatedly(fn, arg, *args, **kwds):
+def repeatedly(fn, arg, *args, **kwds) -> Generator:
     "Yield arg, fn(arg), fn(fn(arg)), ..."
     yield arg
     while True:
