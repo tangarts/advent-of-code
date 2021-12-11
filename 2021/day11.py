@@ -51,26 +51,23 @@ def step(stuff) -> Tuple[List[List[int]], int]:
 
     return grid, flashes
 
-rawtest = """11111
-19991
-19191
-19991
-11111"""
-minitest = data(rawtest, parser=lambda s: list(map(int,s)))
-
-print(repeat(100, step, (test_data11, 0))) # 1656
+# print(repeat(100, step, (test_data11, 0))) # 1656
 
 day11 = data('data/input11.txt', parser=lambda s: list(map(int,s)), test=False)
-print(repeat(100, step, (day11, 0))) # 1673
+# print(repeat(100, step, (day11, 0))) # 1673
 
-def part2(stuff):
+def part2(stuff: Tuple[List[List[int]], int]) -> int:
     iteration = 0
-    grid, flashes = stuff
-    while flashes != len(grid) * len(grid[0]):
-        grid, flashes = stuff
-        stuff = repeatedly(step, stuff)
+    while True:
+        grid, flashes = step(stuff)
         iteration += 1
+        if flashes == 100:
+            break
+        else:
+            stuff = grid, 0
     return iteration
 
-print(part2((day11, 0)))
+print(part2((test_data11, 0)))
+print(part2((day11, 0))) ##
+
     
