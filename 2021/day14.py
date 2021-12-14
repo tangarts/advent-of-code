@@ -1,6 +1,5 @@
 #%%
 from collections import defaultdict
-from itertools import count
 from typing import Counter
 from advent_of_code.core import parse_input, repeat
 from advent_of_code.other import overlapping
@@ -39,11 +38,9 @@ template, insertion = raw_input.split("\n\n")
 # %%
 insertion_map = dict(parse_input(insertion, sep="\n", parser=to_pairs))
 character_map = dict(parse_input(insertion, sep="\n", parser=lambda s: s.split(" -> ")))
-# %%
-counter = Counter(overlapping(template, 2))
 
 # %%
-def step(counter, char_map, insertion_map=insertion_map):
+def step(counter, char_map, insertion_map):
     changes = []
 
     for key, value in counter.items():
@@ -51,6 +48,7 @@ def step(counter, char_map, insertion_map=insertion_map):
             changes.append((key, -value))
             for v in insertion_map[key]:
                 changes.append((v, value))
+
     for key, size in changes:
         counter[key] += size
         if size < 0:
@@ -59,26 +57,10 @@ def step(counter, char_map, insertion_map=insertion_map):
     return counter, char_map
 
 
-# %%
-c = Counter(overlapping(template, 2))
-cmap = Counter(template)
-
-
 def dotimes(n, c, cmap, imap):
     for i in range(n):
         c, cmap = step(c, cmap, imap)
     return c, cmap
-
-
-# %%
-
-# %%
-def count_characters(c):
-    char_dictionary = defaultdict(int)
-    for k, v in c.items():
-        for char in k:
-            char_dictionary[char] += v
-    return char_dictionary
 
 
 # %%
@@ -99,5 +81,8 @@ c, cmap = dotimes(
     40, c=Counter(overlapping(template, 2)), cmap=Counter(template), imap=insertion_map
 )
 # %%
-max(cmap.values()) - min(cmap.values())
+def answer(n):
+    return max(cmap.values()) - min(cmap.values())
+
+
 # %%
