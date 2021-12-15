@@ -51,8 +51,6 @@ def dijkstra_search(
 
 
 # %%
-came_from, cost_so_far = dijkstra_search(test, (0, 0), (9, 9))
-# %%
 def reconstruct_path(came_from: dict, start, goal) -> List:
     current = goal
     path: List = []
@@ -74,32 +72,20 @@ def search(graph):
 # %%
 day15 = parse_input("data/input15.txt", parser=lambda s: list(map(int, s)), test=False)
 # %%
-m, n = len(day15) - 1, len(day15[0]) - 1
-came_from, cost_so_far = dijkstra_search(day15, (0, 0), (m, n))
-cost_so_far[(m, n)]
+def part1(graph):
+
+    m, n = len(graph) - 1, len(graph[0]) - 1
+    came_from, cost_so_far = dijkstra_search(graph, (0, 0), (m, n))
+    return cost_so_far[(m, n)]
+
+
+assert part1(day15) == 398
 # %%
 
 ############## PART 2
 # %%
 test15 = parse_input("test15.txt", parser=lambda s: list(map(int, s)), test=False)
-m, n = len(test15) - 1, len(test15[0]) - 1
-came_from, cost_so_far = dijkstra_search(test15, (0, 0), (m, n))
-cost_so_far[(m, n)]
-# %%
-def tile(graph):
-
-    return graph
-
-
-g0 = [[8]]
-gg = [[8 for _ in range(5)] for _ in range(5)]
-tile(g0) == [
-    [8, 9, 1, 2, 3],
-    [9, 1, 2, 3, 4],
-    [1, 2, 3, 4, 5],
-    [2, 3, 4, 5, 6],
-    [3, 4, 5, 6, 7],
-]
+part1(test15)
 
 
 def update(g):
@@ -116,9 +102,23 @@ def rule(x):
 
 
 # %%
-for i in range(1, 5):
-    for j in range(1, 5):
-        gg[i][j] = rule(gg[i][j - 1])
+def bump(row, n):
+    return [((c + n - 1) % 9) + 1 for c in row]
+
+
+def get_map(data):
+    return [
+        bump(row, n)
+        + bump(row, n + 1)
+        + bump(row, n + 2)
+        + bump(row, n + 3)
+        + bump(row, n + 4)
+        for n in range(5)
+        for row in data
+    ]
+
+
 # %%
-gg
+# new_test = get_map(test)
+part1(get_map(day15))
 # %%
