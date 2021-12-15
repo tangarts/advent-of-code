@@ -3,9 +3,7 @@ from heapq import heappop, heappush
 
 def astar_search(start, h_func, moves_func):
     "Find a shortest sequence of states from start to a goal state (a state s with h_func(s) == 0)."
-    frontier = [
-        (h_func(start), start)
-    ]  # A priority queue, ordered by path length, f = g + h
+    frontier = [ (h_func(start), start) ]  # A priority queue, ordered by path length, f = g + h
     previous = {start: None}  # start state has no previous state; other states will
     path_cost = {start: 0}  # The cost of the best path to a state.
     while frontier:
