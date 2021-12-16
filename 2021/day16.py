@@ -71,7 +71,10 @@ def process_packet(binary_packet: str, versions=0):
         return subpackets
     elif length_type_id == "1":
         subpacket_length: int = bin_to_int(packet[1:12])
-        return length_type_id, subpacket_length, packet[12:12 + subpacket_length * 11]
+        for i in range(subpacket_length):
+            subpacket = packet[12:12 + subpacket_length * 11]
+            process_packet(subpacket)
+        # return length_type_id, subpacket_length, packet[12:12 + subpacket_length * 11]
 
     # process_packet(packet)
     return ""
