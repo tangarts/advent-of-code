@@ -1,11 +1,13 @@
+import pytest
 import re
-from advent_of_code.core import parse_input
+from advent_of_code.core import mapt, parse_input
+from itertools import permutations
 from typing import List
 
 
 def tokenize(numbers: str) -> list:
     "return token of integers and square brackets"
-    tokens = [token for token in re.findall("\[|\]|\d+", numbers)]
+    tokens = [token for token in re.findall(r"\[|\]|[0-9]", numbers)]
     return [int(t) if "0" <= t <= "9" else t for t in tokens]
 
 
@@ -13,7 +15,7 @@ def add(l1: List, l2: List) -> List:
     return ["[", *l1, *l2, "]"]
 
 
-def explode(numbers, i):
+def explode(numbers: list, i: int) -> list:
     """If any pair is nested inside four pairs, the leftmost such pair explodes.
 
     To explode a pair, the pair's left value is added to the first regular number
@@ -96,32 +98,27 @@ def doreduce(numbers: list) -> list:
             numbers = temp
         else:
             break
-    # print(numbers)
     return numbers
 
+def test_action():
+    assert action(tokenize("[[[[[9,8],1],2],3],4]")) == tokenize("[[[[0,9],2],3],4]")
+    assert action(tokenize("[7,[6,[5,[4,[3,2]]]]]")) == tokenize("[7,[6,[5,[7,0]]]]")
+    assert action(tokenize("[[6,[5,[4,[3,2]]]],1]")) == tokenize("[[6,[5,[7,0]]],3]")
 
-assert (action(tokenize("[[[[[9,8],1],2],3],4]"))) == tokenize("[[[[0,9],2],3],4]")
-assert action(tokenize("[7,[6,[5,[4,[3,2]]]]]")) == tokenize("[7,[6,[5,[7,0]]]]")
-assert action(tokenize("[[6,[5,[4,[3,2]]]],1]")) == tokenize("[[6,[5,[7,0]]],3]")
-assert doreduce(tokenize("[[3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]]]")) == tokenize( "[[3,[2,[8,0]]],[9,[5,[7,0]]]]")
+def test_doreduce():
 
+    assert doreduce(tokenize("[[3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]]]")) == tokenize( "[[3,[2,[8,0]]],[9,[5,[7,0]]]]")
 
-assert (doreduce(tokenize("[[[[[4,3],4],4],[7,[[8,4],9]]],[1,1]]"))) == tokenize("[[[[0,7],4],[[7,8],[6,0]]],[8,1]]")
+    assert (doreduce(tokenize("[[[[[4,3],4],4],[7,[[8,4],9]]],[1,1]]"))) == tokenize("[[[[0,7],4],[[7,8],[6,0]]],[8,1]]")
 
-def reduce_list(numbers: List[List]) -> List:
+def reduce_list(numbers: List) -> List:
     result = numbers[0]
     for x in numbers[1:]:
         result = add(result, x)
         result = doreduce(result)
     return result
 
-raw2 = """[1,1]
-[2,2]
-[3,3]
-[4,4]
-[5,5]"""
-
-raw3 = """[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]
+raw_test1 = """[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]
 [7,[[[3,7],[4,3]],[[6,3],[8,8]]]]
 [[2,[[0,8],[3,4]]],[[[6,7],1],[7,[1,6]]]]
 [[[[2,4],7],[6,[0,5]]],[[[6,8],[2,8]],[[2,1],[4,5]]]]
@@ -131,10 +128,11 @@ raw3 = """[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]
 [1,[[[9,3],9],[[9,0],[0,7]]]]
 [[[5,[7,4]],7],1]
 [[[[4,2],2],6],[8,7]]"""
+test1 = parse_input(raw_test1, parser=tokenize)
 
-assert reduce_list(parse_input(raw3, parser=tokenize)) == tokenize("[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]")
+assert reduce_list(test1) == tokenize("[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]")
 
-raw4 = """[[[0,[5,8]],[[1,7],[9,6]]],[[4,[1,2]],[[1,4],2]]]
+raw_test2 = """[[[0,[5,8]],[[1,7],[9,6]]],[[4,[1,2]],[[1,4],2]]]
 [[[5,[2,8]],4],[5,[[9,9],0]]]
 [6,[[[6,2],[5,6]],[[7,6],[4,7]]]]
 [[[6,[0,7]],[0,9]],[4,[9,[9,0]]]]
@@ -146,6 +144,7 @@ raw4 = """[[[0,[5,8]],[[1,7],[9,6]]],[[4,[1,2]],[[1,4],2]]]
 [[[[5,2],5],[8,[3,7]]],[[5,[7,5]],[4,4]]]"""
 
 
+test2 = parse_input(raw_test2, parser=tokenize)
 
 def magnitude(numbers):
     if len(numbers) <= 1:
@@ -156,21 +155,24 @@ def magnitude(numbers):
             return magnitude(numbers)
     return -1
 
-print(magnitude(tokenize("[9,1]"))) # 29
-print(magnitude(tokenize("[[9,1],[1,9]]"))) # 129
-print(magnitude(tokenize("[[1,2],[[3,4],5]]"))) # 143
-print(magnitude(tokenize("[[[[3,0],[5,3]],[4,4]],[5,5]]"))) # 791
-print(magnitude(tokenize("[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]"))) # 3488
+def test_magnitude():
+    assert magnitude(tokenize("[9,1]")) == 29
+    assert magnitude(tokenize("[[9,1],[1,9]]")) == 129
+    assert magnitude(tokenize("[[1,2],[[3,4],5]]")) == 143
+    assert magnitude(tokenize("[[[[3,0],[5,3]],[4,4]],[5,5]]")) == 791
 
-print(magnitude(tokenize("[[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]]"))) # 4140
+    assert magnitude(tokenize("[[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]]")) == 4140
 
 
 day18 = parse_input('data/input18.txt', parser=tokenize, test=False)
-assert magnitude(reduce_list(parse_input(raw3, parser=tokenize))) == 3488
+assert magnitude(reduce_list(test1)) == 3488
 
 # part 1
-print(magnitude(reduce_list(day18)))
+assert magnitude(reduce_list(day18)) == 4111
 
+# part 2
+def part2(numbers: list):
+    return max(mapt(magnitude, [reduce_list([x, y]) for x, y in permutations(numbers, 2)]))
 
-
-    
+assert part2(test2) == 3993
+print(part2(day18))
