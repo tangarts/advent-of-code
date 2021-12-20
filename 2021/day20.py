@@ -70,7 +70,7 @@ def enhance_image(matrix, enhance, background):
 
 def run(matrix, enhance, n):
     for i in range(n):
-        matrix = enhance_image(matrix, enhance, str(i & 1))
+        matrix = enhance_image(matrix, enhance, str(i % 2))
     return list(flatten(matrix)).count("1")
 
 
@@ -84,7 +84,7 @@ enhance = "".join(enhance.replace("\n", ""))
 input_image = [list(i) for i in input_image.split("\n")]
 
 # part 1
-# print(run(input_image, enhance, 2))
+assert run(input_image, enhance, 2) == 5583
 
 # part 2
 # print(run(input_image, enhance, 50))
