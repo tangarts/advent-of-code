@@ -12,10 +12,9 @@
 # and then it is broken into groups of four bits.
 # Each group is prefixed by a 1 bit except the last group, which is prefixed by a 0 bit.
 # These groups of five bits immediately follow the packet header.
-
+import pytest
 from typing import Tuple
 from advent_of_code.core import parse_input
-from advent_of_code.debug import trace1
 
 day16 = parse_input('data/input16.txt', sep="\n", parser=str, test=False)[0]
 
@@ -60,7 +59,8 @@ def parse_literal(packet: str) -> Tuple[int, str]:
         subpackets.append("".join(packet[1:5]))
         packet = packet[5:]
     subpackets.append(packet[1:5])
-    return btoi("".join(subpackets)), packet[5:]
+    packet = packet[5:]
+    return btoi("".join(subpackets)), packet
 
 # print(parse_literal("101111111000101000"))
 
@@ -81,20 +81,20 @@ def process_packet(binary_packet: str):
                 version += subversion
         elif length_type_id == "1":
             subpacket_num, packet = btoi(packet[:11]), packet[11:]
-            for i in range(subpacket_num):
-                #subversion, _ = process_packet(packet[11*i:11*(i+1)])
+            for _ in range(subpacket_num):
                 subversion, packet = process_packet(packet)
                 version += subversion
-    print(version, packet)
     return version, packet
 
 
 
-# id of 0
-# print(process_packet(hex_to_bin("38006F45291200")))
-print(process_packet(hex_to_bin("EE00D40C823060")))
-# print(process_packet(hex_to_bin("8A004A801A8002F478")))
-# print(process_packet(hex_to_bin("620080001611562C8802118E34")))
-# print(process_packet(hex_to_bin("C0015000016115A2E0802F182340")))
-# print(process_packet(hex_to_bin(day16))) # 871
+def test_packet_sum():
+    version_sum, _ =  process_packet(hex_to_bin("8A004A801A8002F478")) 
+    assert version_sum == 16
+    version_sum, _ = process_packet(hex_to_bin("620080001611562C8802118E34"))
+    assert version_sum == 12
+    version_sum, _ = process_packet(hex_to_bin("C0015000016115A2E0802F182340"))
+    assert version_sum == 23
+
+print(process_packet(hex_to_bin(day16))) # 871
 
