@@ -1,11 +1,14 @@
-from itertools import product
+#%%
+from itertools import count, product
 from collections import defaultdict
+from typing import Tuple
 from advent_of_code.core import parse_input, integers
 
 raw = """on x=-20..26,y=-36..17,z=-47..7
 on x=-20..33,y=-21..23,z=-26..28
-on x=-22..28,y=-29..23,z=-38..16
-on x=-46..7,y=-6..46,z=-50..-1
+on x=-22..28,y=-29..23,z=-38..16"""
+
+"""on x=-46..7,y=-6..46,z=-50..-1
 on x=-49..1,y=-3..46,z=-24..28
 on x=2..47,y=-22..22,z=-23..27
 on x=-27..23,y=-28..26,z=-21..29
@@ -23,50 +26,89 @@ on x=-49..-5,y=-3..45,z=-29..18
 off x=18..30,y=-20..-8,z=-3..13
 on x=-41..9,y=-7..43,z=-33..15"""
 
+
 def parse(line):
     on_off, ranges = line.split(" ", maxsplit=1)
     xyz = []
     ranges = integers(ranges)
     for i in range(0, len(ranges), 2):
-        xyz.append((ranges[i], ranges[i+1]))
+        xyz.append((ranges[i], ranges[i + 1]))
     return on_off, xyz
-    
-test = parse_input(raw, parser=parse)
-_input = """on x=-30..22,y=-28..20,z=-17..37
-on x=-20..34,y=-30..17,z=-30..21
-on x=-7..42,y=-23..26,z=-18..29
-on x=-8..44,y=-34..20,z=-14..32
-on x=-13..32,y=-47..6,z=-38..6
-on x=-48..6,y=-36..14,z=-18..33
-on x=-31..13,y=-22..32,z=-44..9
-on x=-18..31,y=-48..-2,z=-18..28
-on x=-9..38,y=-15..35,z=-48..6
-on x=-14..35,y=-42..6,z=-9..43
-off x=25..40,y=-21..-12,z=3..18
-on x=-32..12,y=-28..18,z=-12..40
-off x=-12..1,y=27..38,z=5..18
-on x=-34..14,y=-38..13,z=-29..23
-off x=9..28,y=-35..-26,z=7..16
-on x=-18..27,y=-21..27,z=-42..7
-off x=18..32,y=26..42,z=-8..10
-on x=-15..34,y=-30..17,z=-19..33
-off x=12..23,y=32..45,z=26..41
-on x=-36..13,y=-33..13,z=-27..17"""
-test = parse_input(_input, parser=parse)
 
-steps = [["on", (10, 12)], ["on", (11, 13)], ["off", (9, 11)], ["on", (10, 10)]]
+
+test = parse_input(raw, parser=parse)
+
+
+##day22 = parse_input('data/input22.txt', parser=parse, test=False)
+
 
 def count_on(steps):
     cubes = defaultdict(int)
     for onoff, ranges in steps:
         x, y, z = ranges
         if onoff == "on":
-            for cube in product(range(x[0], x[1] + 1), range(y[0], y[1] + 1), range(z[0], z[1] + 1)):
+            for cube in product(
+                range(x[0], x[1] + 1), range(y[0], y[1] + 1), range(z[0], z[1] + 1)
+            ):
                 cubes[cube] = 1
         elif onoff == "off":
-            for cube in product(range(x[0], x[1] + 1), range(y[0], y[1] + 1), range(z[0], z[1] + 1)):
+            for cube in product(
+                range(x[0], x[1] + 1), range(y[0], y[1] + 1), range(z[0], z[1] + 1)
+            ):
                 cubes[cube] = 0
 
     return sum(cubes.values())
 
 
+count_on(test)
+
+#%%
+
+
+def overlap(p1: Tuple[int, int], p2: Tuple[int, int]) -> int:
+    l1, h1 = p1  # low and high points
+    l2, h2 = p2
+
+    # no overlap
+    if max(l1, l2) > min(h1, h2):
+        return 1
+    return abs(min(h1, h2) - max(l1, l2)) + 1
+
+
+#%%
+intervals = {0: [0, 0], 1: [0, 0], 2: [0, 0]}  # x  # y  # z
+total = 0
+prod = 1
+overlapping = 1
+for j, (onoff, ranges) in enumerate(test):
+    # x, y and z
+    for i in range(3):
+        overlapping *= overlap(intervals[i], ranges[i])
+        prod *= len(range(*ranges[i])) + 1
+        intervals[i][0] = min(intervals[i][0], ranges[i][0])
+        intervals[i][1] = max(intervals[i][1], ranges[i][1])
+    print(overlapping)
+    print(intervals)
+    total += prod
+    # remove overlap
+    if overlapping > 1:
+        total -= overlapping
+    prod = 1
+    overlapping = 1
+
+
+print(total)
+
+
+# %%
+# answer 210918
+# 225476
+
+# %%
+def irange(start, stop):
+    return range(start, stop + 1)
+
+
+# %%
+intervals
+# %%
