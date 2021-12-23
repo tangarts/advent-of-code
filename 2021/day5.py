@@ -1,4 +1,6 @@
+
 from collections import defaultdict
+from advent_of_code.core import parse_input, mapt
 
 test_input = """0,9 -> 5,9
 8,0 -> 0,8
@@ -11,37 +13,26 @@ test_input = """0,9 -> 5,9
 0,0 -> 8,8
 5,5 -> 8,2"""
 
-def data(_input, sep: str="\n", parser=str, test: bool=True):
-    if not test:
-        with open(_input) as f:
-            _input = f.read()
-    sections = _input.rstrip().split(sep)
-    return [parser(section) for section in sections]
 
 def count(iterable, predicate=bool):
     return sum(1 for item in iterable if predicate(item))
 
-def mapt(fn, *args):
-    "map(fn, *args) and return the result as a tuple."
-    return tuple(map(fn, *args))
 
 def str_to_tup(string):
     """
-    convert string to tuple 
+    convert string to tuple
     example: str_to_tup('0, 0') => (0, 0)
     """
     return mapt(int, string.split(","))
 
-def X(point): return point[0]
-def Y(point): return point[1]
 
-def trace1(f):
-    "Print a trace of the input and output of a function on one line."
-    def traced_f(*args):
-        result = f(*args)
-        print('{}({}) = {}'.format(f.__name__, ', '.join(map(str, args)), result))
-        return result
-    return traced_f
+def X(point):
+    return point[0]
+
+
+def Y(point):
+    return point[1]
+
 
 def count_points(p1: tuple, p2: tuple, part1=True):
     min_y, max_y = min(Y(p2), Y(p1)), max(Y(p2), Y(p1))
@@ -53,20 +44,21 @@ def count_points(p1: tuple, p2: tuple, part1=True):
 
     if not part1:
         grad = (Y(p2) - Y(p1)) / (X(p2) - X(p1))
-        return [(x, grad*(x - min_x) + Y(p1)) for x in range(min_x, max_x + 1)]
+        return [(x, grad * (x - min_x) + Y(p1)) for x in range(min_x, max_x + 1)]
     return []
+
 
 def do(_input, istest, part1):
     point_map = defaultdict(int)
-    _input = data(_input, 
-                  parser=lambda s: mapt(str_to_tup, s.split(" -> ")), 
-                  test=istest)
+    _input = parse_input(
+        _input, parser=lambda s: mapt(str_to_tup, s.split(" -> ")), test=istest
+    )
 
     for points in _input:
         p1, p2 = points
         if X(p1) > X(p2):
             p1, p2 = p2, p1
-        px =count_points(p1, p2, part1)
+        px = count_points(p1, p2, part1)
         for p in px:
             point_map[p] += 1
 
@@ -80,4 +72,6 @@ def do(_input, istest, part1):
 ## part2
 
 assert do(test_input, istest=True, part1=False) == 12
-assert do('data/input5.txt', istest=False, part1=False) == 18065
+assert do("data/input5.txt", istest=False, part1=False) == 18065
+
+# %%

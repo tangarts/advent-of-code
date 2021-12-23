@@ -1,5 +1,5 @@
 
-from advent_of_code.core import *
+from advent_of_code.core import parse_input
 
 _test_input = "16,1,2,0,4,2,7,1,2,14"
 

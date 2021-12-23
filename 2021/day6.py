@@ -1,5 +1,5 @@
 #%%
-from advent_of_code.core import *
+from advent_of_code.core import parse_input
 from collections import deque
 
 #%%

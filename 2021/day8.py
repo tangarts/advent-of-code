@@ -1,7 +1,7 @@
 #%%
 
 from collections import Counter
-from advent_of_code.core import parse_input, mapt, multimap, quantify
+from advent_of_code.core import parse_input, multimap, quantify
 
 _test_input1 = "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"
 
