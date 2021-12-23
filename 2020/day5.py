@@ -40,3 +40,7 @@ print(min(map(lambda x: seat_id(x), _input)))
 
 ### find the first missing seat
 seats = sorted(map(lambda x: seat_id(x), _input))
+for i in range(len(seats)):
+    if seats[i+1] - seats[i] != 1:
+        print(seats[i] + 1)
+        break
