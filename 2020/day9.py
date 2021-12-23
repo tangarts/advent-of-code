@@ -40,15 +40,39 @@ test = parse_input(raw, parser=int)
 def part1(numbers, window):
 
     for i in range(window + 1, len(numbers)):
-        if two_sum(numbers[i - window : i ], numbers[i]) == -1:
+        if two_sum(numbers[i - window : i], numbers[i]) == -1:
             return numbers[i]
 
 
-# %%
-part1(test, 5)
-# %%
 day9 = parse_input("data/input9.txt", sep="\n", parser=int, test=False)
-part1(day9, 25)
+
+assert part1(test, 5) == 127
+assert part1(day9, 25) == 1930745883
+
 # %%
-day9
+# part 2
+# find a contiguous set of at least two numbers in
+# your list which sum to the invalid number from step 1.
+
+
+def part2(numbers, target):
+    left, right = 0, 0
+    total = 0
+    while left < len(numbers) - 1 or right < len(numbers) - 1:
+
+        while total < target:
+            total += numbers[right]
+            right += 1
+        if total > target:
+            total -= numbers[left]
+            left += 1
+        if total == target:
+            return min(numbers[left:right]) + max(numbers[left:right])
+
+
+# %%
+assert part2(test, 127) == 62
+
+assert part2(day9, 1930745883) == 268878261
+
 # %%
