@@ -17,12 +17,11 @@ Of course, your expense report is much larger. Find the two entries that sum to
 2020; what do you get if you multiply them together?
  """
 
-with open("data/input_1.txt") as f:
+with open("data/input1.txt") as f:
     array = [int(s) for s in f.readlines()]
 
 
-
-def two_sum(array: list, t:int=2020) -> int:
+def two_sum(array: list, t: int = 2020) -> int:
     cache = {}
     for i in range(len(array)):
         if array[i] not in cache:

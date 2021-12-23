@@ -22,7 +22,7 @@ from collections import Counter
 
 # %%
 result = 0
-with open("data/input_2.txt") as f:
+with open("data/input2.txt") as f:
     for line in f.readlines():
         count, letter, password = line.split(" ")
         lower_bound, upper_bound = [int(i) for i in count.split("-")]

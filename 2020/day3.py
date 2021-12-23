@@ -26,7 +26,7 @@ down 1, how many trees would you encounter?
 down = 0
 trees = 0
 right = 0
-with open("data/input_3.txt") as testf:
+with open("data/input3.txt") as testf:
     board = [line.strip("\n") for line in testf.readlines()]
     # for line in testf.readlines():
     #     line = line.strip('\n')
