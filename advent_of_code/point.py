@@ -1,4 +1,5 @@
 # 2-D points implemented using (x, y) tuples
+#%%
 from typing import Tuple, Union
 
 origin = (0, 0)
@@ -61,11 +62,10 @@ def neighbors8(point: Tuple[int, int]) -> Tuple[Tuple[int, int], ...]:
     )
 
 
-def cityblock_distance(p: Tuple[float, float], q: Tuple[int, int] = (0, 0)) -> Union[float, int]:
-    "City block distance between two points."
-    return abs(X(p) - X(q)) + abs(Y(p) - Y(q))
-
-
-# def euclidean_distance(p, q=(0, 0)):
-#     "Euclidean (hypotenuse) distance between two points."
-#     return math.hypot(X(p) - X(q), Y(p) - Y(q))
+def manhattan_distance(
+    P: Tuple[float, ...], Q: Union[Tuple[int, ...], None] = None
+) -> Union[float, int]:
+    "manhattan distance between two points"
+    if Q is None:
+        Q = (0 for _ in range(len(P)))
+    return sum(abs(p - q) for p, q in zip(P, Q))
