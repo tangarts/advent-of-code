@@ -77,7 +77,7 @@ ID = {
     3: max,
     5: lambda val: 1 if val[1] > val[2] else 0,
     6: lambda val: 1 if val[1] < val[2] else 0,
-    7: lambda val: 1 if val[1]1 == val[2] else 0,
+    7: lambda val: 1 if val[1] == val[2] else 0,
 }
 
 
