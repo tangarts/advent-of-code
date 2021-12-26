@@ -1,6 +1,7 @@
 # Another graph traversal
 from collections import defaultdict, deque
 from typing import Callable
+
 from advent_of_code.core import parse_input
 
 raw_test = """start-A

@@ -1,7 +1,8 @@
 #%%
-from math import prod
 from collections import deque
-from advent_of_code.core import parse_input, mapt
+from math import prod
+
+from advent_of_code.core import parse_input
 from advent_of_code.point import neighbors4
 
 _test_input = """2199943210
@@ -33,7 +34,6 @@ def count_lows(grid):
 
                 while q:
                     curr = q.popleft()
-                    count = 0
                     for x, y in neighbors4(curr):
                         # OOB
                         if (

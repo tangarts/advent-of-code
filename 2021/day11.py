@@ -1,6 +1,7 @@
 from collections import deque
-from typing import Callable, Tuple, List
-from advent_of_code.core import parse_input, repeat, repeatedly
+from typing import Callable, List, Tuple
+
+from advent_of_code.core import parse_input, repeat
 from advent_of_code.point import neighbors8
 
 
