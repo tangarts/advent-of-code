@@ -14,6 +14,7 @@ b-end"""
 
 test_input = parse_input(raw_test, parser=lambda s: s.split("-"))
 
+
 def build_graph(nodes: list) -> dict:
     graph = defaultdict(list)
     for u, v in nodes:
@@ -21,10 +22,13 @@ def build_graph(nodes: list) -> dict:
         graph[v].append(u)
     return graph
 
+
 graph1 = build_graph(test_input)
+
 
 def part1_visited(node: str, path: list) -> bool:
     return node not in path or node.isupper()
+
 
 def bfs(graph: dict, start: str, visited: Callable) -> int:
     # instead of nodes we want to keep track of entire paths
@@ -33,7 +37,7 @@ def bfs(graph: dict, start: str, visited: Callable) -> int:
     while q:
         current_path = q.popleft()
         last_visited = current_path[-1]
-        if last_visited == 'end': 
+        if last_visited == 'end':
             paths += 1
         else:
             for neighbour in graph[last_visited]:
@@ -43,7 +47,8 @@ def bfs(graph: dict, start: str, visited: Callable) -> int:
                     q.append(next_path)
 
     return paths
-            
+
+
 assert bfs(graph1, 'start', part1_visited) == 10
 
 example2 = """dc-end
@@ -84,22 +89,23 @@ graph3 = build_graph(parse_input(example3, parser=lambda s: s.split('-')))
 
 assert bfs(graph3, 'start', part1_visited) == 226
 
+day12 = parse_input('data/input12.txt', parser=lambda s: s.split('-'), test=False)
 
-day12 = parse_input('data/input12.txt',  parser=lambda s: s.split('-'), test=False)
 graph = build_graph(day12)
 
-assert bfs(graph, 'start', part1_visited) == 5178
 
 def part2_visited(node: str, path: list) -> bool:
     # missed edge case
     if node == "start":
         return False
-    ## small single cave
+    # small single cave
     # either revisit if node in path and all others have been visited once
     return part1_visited(node, path) or max(path.count(node) for node in path if node.islower()) == 1
 
 
-assert bfs(graph1, 'start', part2_visited)  == 36
-assert bfs(graph2, 'start', part2_visited)  == 103
-assert bfs(graph3, 'start', part2_visited)  == 3509
-assert bfs(graph, 'start', part2_visited) == 130094
+def test_bfs():
+    assert bfs(graph, 'start', part1_visited) == 5178
+    assert bfs(graph1, 'start', part2_visited) == 36
+    assert bfs(graph2, 'start', part2_visited) == 103
+    assert bfs(graph3, 'start', part2_visited) == 3509
+    assert bfs(graph, 'start', part2_visited) == 130094
